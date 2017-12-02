@@ -1,14 +1,9 @@
-/* Read Quadrature Encoder
-   Connect Encoder to Pins encoder0PinA, encoder0PinB, and +5V.
+//Quadrature Encoder
+//Connect Encoder to Pins encoder0PinA, encoder0PinB, and +5V.
+//Mechatronics 520.340 Lab 2
 
-   Sketch by max wolf / www.meso.net
-   v. 0.1 - very basic functions - mw 20061220
-
-*/
-
-int val;
-int encoder0PinA = 3;
-int encoder0PinB = 4;
+int encoder0PinA = 9;
+int encoder0PinB = 10;
 int encoder0Pos = 0;
 int encoder0PinALast = LOW;
 int n = LOW;
@@ -27,8 +22,7 @@ void loop() {
     } else {
       encoder0Pos++;
     }
-    Serial.print (encoder0Pos);
-    Serial.print ("/");
+    Serial.print ("encoder");Serial.println (encoder0Pos);Serial.println ("");
   }
   encoder0PinALast = n;
 }

@@ -57,29 +57,53 @@ void loop() {
  yPosition = analogRead(yPin);
  yPosition = (yPosition-328)*10/34;
  buttonState = digitalRead(buttonPin);
-  Serial.print("X: ");
-  Serial.print(xPosition);
-  Serial.print(" | Y: ");
-  Serial.print(yPosition);
-  Serial.println("");
+//  Serial.print("X: ");
+//  Serial.print(xPosition);
+//  Serial.print(" | Y: ");
+//  Serial.print(yPosition);
+//  Serial.println("");
  int i;
- if (xPosition > 5)
+ if (xPosition > 50)
  {
  myMotor->run(FORWARD);
- i = xPosition;
+ i = round(sqrt(pow(xPosition,2)-2500))*0.9;
  myMotor->setSpeed(i);
- delay(10);
-// Serial.print(i);
-// Serial.println("");
+ delay(20);
+ Serial.print("FWspeed: ");
+ Serial.print(i);
+ Serial.print(" ");
+ //Serial.println("");
  }
- if (xPosition < -5)
+ //
+ if (-50 <= xPosition <= 50)
+ {
+  if (encoder0Pos > 5)
+  {
+  myMotor->run(BACKWARD);
+  i = 50;//There is no need to have negative sign here
+  myMotor->setSpeed(i);
+  delay(5);
+  }
+  else if (encoder0Pos < -5)
+  {
+  myMotor->run(FORWARD);
+  i = 50;//There is no need to have negative sign here
+  myMotor->setSpeed(i);
+  delay(5);
+  }
+  else
+  {
+  myMotor->run(FORWARD);
+  i = 0;//There is no need to have negative sign here
+  myMotor->setSpeed(i);
+  }
+ }
+ //
+ if (-50 > xPosition)
  {
  myMotor->run(BACKWARD);
- i = (-1)*xPosition;
+ i = 0;
  myMotor->setSpeed(i);
- delay(10);
-// Serial.print(i);
-// Serial.println("");
  }
 
  n = digitalRead(encoder0PinA);
@@ -89,9 +113,10 @@ void loop() {
     } else {
       encoder0Pos++;
     }
-    //Serial.print (encoder0Pos);
-    //Serial.print ("/");
   }
   encoder0PinALast = n;
+  Serial.print ("Encoder: ");
+  Serial.print (encoder0Pos);
+  Serial.println ("");
 }
 
